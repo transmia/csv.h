@@ -5,6 +5,7 @@
 
 uint64_t get_ns(void);
 
+/* other syntax for csv struct */
 Csv(Pornstar,
     string, name,
     string, link,
@@ -17,7 +18,7 @@ int main() {
     uint64_t start = get_ns();
     PornstarArray* pornstars = csv_parse_file("pornstars.csv", Pornstar);
     uint64_t end = get_ns();
-    printf("Parsed %zu records in %g milliseconds\n", pornstars->count, (double)(end - start) / 1e6);
+    printf("Parsed %zu records in %g milliseconds\n", pornstars->count, (double)(end - start) / 1e6); /* about 1.8ms on my machine */
     csv_free(pornstars);
     return 0;
 }

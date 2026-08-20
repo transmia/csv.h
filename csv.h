@@ -610,6 +610,37 @@ MIAS_CSV_DEF void csv__free_array(void* arena_buf, void* items, void* array);
     }; \
     static const size_t name##_num_fields = 16;
 
+/* Custom-sized CSV_STRUCT macro:
+ * Copy the code beneath this and replace everything in <> with your desired number of fields.
+ * Take that 'n' is the amount of fields you want.
+ * Replace all <...> with the remaining fields after the first 3.
+ * For example, if you want 5 fields, replace <...> with d1, d2, e1, e2 or the CSV_DECL_FIELD and CSV_META_FIELD macros.
+ * ============================================================== */
+/*
+#define CSV_STRUCT_<2n>(name, a1, a2, b1, b2, c1, c2, <...>) \
+    typedef struct { \
+        CSV_DECL_FIELD(a1, a2) \
+        CSV_DECL_FIELD(b1, b2) \
+        CSV_DECL_FIELD(c1, c2) \
+        <...> \
+    } name; \
+    typedef struct { \
+        name* items; \
+        size_t count; \
+        size_t capacity; \
+        char*  arena_buf; \
+        size_t arena_used; \
+        size_t arena_cap; \
+    } name##Array; \
+    static const CsvField name##_fields[] = { \
+        CSV_META_FIELD(name, a1, a2), \
+        CSV_META_FIELD(name, b1, b2), \
+        CSV_META_FIELD(name, c1, c2), \
+        <...> \
+    }; \
+    static const size_t name##_num_fields = <n>;
+*/
+
 #endif /* MIAS_CSV_H */
 
 #ifdef CSV_IMPLEMENTATION
