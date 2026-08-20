@@ -1,4 +1,5 @@
 #define CSV_IMPLEMENTATION
+#define CSV_ALLOW_YES_NO_AS_BOOLEAN 1
 #include "../csv.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -7,11 +8,11 @@
 
 Csv(Insurance,
     number, age,
-    number, sex,
+    string, sex,
     number, bmi,
     number, children,
     boolean, smoker,
-    number, region,
+    string, region,
     number, charges
 )
 
