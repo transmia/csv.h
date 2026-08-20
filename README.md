@@ -15,6 +15,8 @@ See [test/main.c](./test/main.c) for speed test (11k records).
 
 Due to C being an old stupid language i had to made it so you can only have 1 to 16 fields in a CSV_STRUCT (if you need more you can go and edit it in [csv.h](./csv.h#L613)).
 
+`csv_parse` and `csv_parse_cstr` require a writable source buffer because the parser null-terminates string fields in-place  
+
 ## Customization
 
 | Define                 | Default value | Description                                               |
