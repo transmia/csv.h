@@ -1133,7 +1133,7 @@ MIAS_CSV_DEF void* csv__parse_from_file(const char* filepath, const CsvField* fi
 
 static size_t csv__format_string_field(const char* str, char* buf, size_t buf_size) {
     if (!str) {
-        if (buf_size < 2) return (size_t)-1;
+        if (buf_size < 2) return CSV_INVALID_INDEX;
         buf[0] = '"';
         buf[1] = '"';
         return 2;
@@ -1149,27 +1149,27 @@ static size_t csv__format_string_field(const char* str, char* buf, size_t buf_si
 
     if (!needs_quoting) {
         size_t len = strlen(str);
-        if (buf_size < len) return (size_t)-1;
+        if (buf_size < len) return CSV_INVALID_INDEX;
         memcpy(buf, str, len);
         return len;
     }
 
     size_t pos = 0;
-    if (buf_size < 1) return (size_t)-1;
+    if (buf_size < 1) return CSV_INVALID_INDEX;
     buf[pos++] = '"';
 
     for (const char* p = str; *p; ++p) {
         if (*p == '"') {
-            if (pos + 2 > buf_size) return (size_t)-1;
+            if (pos + 2 > buf_size) return CSV_INVALID_INDEX;
             buf[pos++] = '"';
             buf[pos++] = '"';
         } else {
-            if (pos + 1 > buf_size) return (size_t)-1;
+            if (pos + 1 > buf_size) return CSV_INVALID_INDEX;
             buf[pos++] = *p;
         }
     }
 
-    if (pos + 1 > buf_size) return (size_t)-1;
+    if (pos + 1 > buf_size) return CSV_INVALID_INDEX;
     buf[pos++] = '"';
     return pos;
 }
@@ -1210,7 +1210,7 @@ MIAS_CSV_DEF bool csv__write(char* buf, size_t buf_size, void* arr, const CsvFie
                 case CSV_STRING: {
                     const char* str = *(const char**)src;
                     size_t flen = csv__format_string_field(str, buf + pos, buf_size - pos);
-                    if (flen == (size_t)-1) return false;
+                    if (flen == CSV_INVALID_INDEX) return false;
                     pos += flen;
                     break;
                 }
@@ -1368,7 +1368,7 @@ MIAS_CSV_DEF size_t csv__field_offset(const CsvField* fields, size_t num_fields,
             return fields[i].offset;
         }
     }
-    return (size_t)-1;
+    return CSV_INVALID_INDEX;
 }
 
 MIAS_CSV_DEF void csv__free_array(void* arena_buf, void* items, void* array) {
@@ -1379,10 +1379,10 @@ MIAS_CSV_DEF void csv__free_array(void* arena_buf, void* items, void* array) {
 
 MIAS_CSV_DEF size_t csv__find_min(void* arr, const CsvField* fields, size_t num_fields, size_t item_size, const char* field_name) {
     csv__array* a = (csv__array*)arr;
-    if (!a || a->count == 0) return (size_t)-1;
+    if (!a || a->count == 0) return CSV_INVALID_INDEX;
     
     size_t field_offset = csv__field_offset(fields, num_fields, field_name);
-    if (field_offset == (size_t)-1) return (size_t)-1;
+    if (field_offset == CSV_INVALID_INDEX) return CSV_INVALID_INDEX;
     
     const CsvField* f = NULL;
     for (size_t i = 0; i < num_fields; ++i) {
@@ -1391,7 +1391,7 @@ MIAS_CSV_DEF size_t csv__find_min(void* arr, const CsvField* fields, size_t num_
             break;
         }
     }
-    if (!f || f->type != CSV_NUMBER) return (size_t)-1;
+    if (!f || f->type != CSV_NUMBER) return CSV_INVALID_INDEX;
     
     size_t min_idx = 0;
     double min_val = *(double*)((char*)a->items + field_offset);
@@ -1408,10 +1408,10 @@ MIAS_CSV_DEF size_t csv__find_min(void* arr, const CsvField* fields, size_t num_
 
 MIAS_CSV_DEF size_t csv__find_max(void* arr, const CsvField* fields, size_t num_fields, size_t item_size, const char* field_name) {
     csv__array* a = (csv__array*)arr;
-    if (!a || a->count == 0) return (size_t)-1;
+    if (!a || a->count == 0) return CSV_INVALID_INDEX;
     
     size_t field_offset = csv__field_offset(fields, num_fields, field_name);
-    if (field_offset == (size_t)-1) return (size_t)-1;
+    if (field_offset == CSV_INVALID_INDEX) return CSV_INVALID_INDEX;
     
     const CsvField* f = NULL;
     for (size_t i = 0; i < num_fields; ++i) {
@@ -1420,7 +1420,7 @@ MIAS_CSV_DEF size_t csv__find_max(void* arr, const CsvField* fields, size_t num_
             break;
         }
     }
-    if (!f || f->type != CSV_NUMBER) return (size_t)-1;
+    if (!f || f->type != CSV_NUMBER) return CSV_INVALID_INDEX;
     
     size_t max_idx = 0;
     double max_val = *(double*)((char*)a->items + field_offset);
@@ -1437,10 +1437,10 @@ MIAS_CSV_DEF size_t csv__find_max(void* arr, const CsvField* fields, size_t num_
 
 MIAS_CSV_DEF size_t csv__find_first(void* arr, const CsvField* fields, size_t num_fields, size_t item_size, const char* field_name, void* value) {
     csv__array* a = (csv__array*)arr;
-    if (!a || a->count == 0) return (size_t)-1;
+    if (!a || a->count == 0) return CSV_INVALID_INDEX;
     
     size_t field_offset = csv__field_offset(fields, num_fields, field_name);
-    if (field_offset == (size_t)-1) return (size_t)-1;
+    if (field_offset == CSV_INVALID_INDEX) return CSV_INVALID_INDEX;
     
     const CsvField* f = NULL;
     for (size_t i = 0; i < num_fields; ++i) {
@@ -1449,7 +1449,7 @@ MIAS_CSV_DEF size_t csv__find_first(void* arr, const CsvField* fields, size_t nu
             break;
         }
     }
-    if (!f) return (size_t)-1;
+    if (!f) return CSV_INVALID_INDEX;
     
     for (size_t i = 0; i < a->count; ++i) {
         void* field_ptr = (char*)a->items + i * item_size + field_offset;
@@ -1474,7 +1474,7 @@ MIAS_CSV_DEF size_t csv__find_first(void* arr, const CsvField* fields, size_t nu
         
         if (match) return i;
     }
-    return (size_t)-1;
+    return CSV_INVALID_INDEX;
 }
 
 MIAS_CSV_DEF void* csv__find_all(void* arr, const CsvField* fields, size_t num_fields, size_t item_size, const char* field_name, void* value) {
@@ -1482,7 +1482,7 @@ MIAS_CSV_DEF void* csv__find_all(void* arr, const CsvField* fields, size_t num_f
     if (!a) return NULL;
     
     size_t field_offset = csv__field_offset(fields, num_fields, field_name);
-    if (field_offset == (size_t)-1) return NULL;
+    if (field_offset == CSV_INVALID_INDEX) return NULL;
     
     const CsvField* f = NULL;
     for (size_t i = 0; i < num_fields; ++i) {
