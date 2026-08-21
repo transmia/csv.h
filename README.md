@@ -21,7 +21,7 @@ See also [examples/](./examples/).
 
 - `csv_compare` and `csv_write_*` could be imprecise because of floating-point (fp) errors.
 
-- `csv_find_first` and `csv_find_all` cant handle inlined value for the `value` param (needs a var). If youre compiling on a platform that provides `__typeof__`, this wont be an issue.
+- `csv_find_first` and `csv_find_all` cant handle inlined value for the `value` param (needs a var). If youre compiling with a compiler that provides `__typeof__`, this wont be an issue.
 
 ## Customization
 
