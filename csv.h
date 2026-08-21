@@ -1336,6 +1336,7 @@ MIAS_CSV_DEF bool csv__write_to_file(const char* filepath, void* arr, const CsvF
 }
 
 MIAS_CSV_DEF int csv__compare(void* a, void* b, const CsvField* fields, size_t num_fields, size_t item_size) {
+    (void)item_size; /* unused for now */
     for (size_t i = 0; i < num_fields; ++i) {
         const CsvField* f = &fields[i];
         void* a_field = (char*)a + f->offset;
