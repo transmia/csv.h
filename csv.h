@@ -29,8 +29,8 @@
 #define CSV_NUMBER_CMP_EPS 1e-15
 #endif
 
-#ifndef CSV_ALLOW_YES_NO_AS_BOOLEAN
-#define CSV_ALLOW_YES_NO_AS_BOOLEAN 0
+#ifndef CSV_ALLOW_YES_AS_BOOLEAN
+#define CSV_ALLOW_YES_AS_BOOLEAN 0
 #endif
 
 #include <stddef.h>
@@ -978,7 +978,7 @@ static int csv__set_field(void* item, const CsvField* f,
             while (slen > 0 && CSV__IS_SPACE((unsigned char)*s)) { ++s; --slen; }
             while (slen > 0 && CSV__IS_SPACE((unsigned char)s[slen - 1])) --slen;
             *(bool*)dst = (slen == 4 && memcmp(s, "true", 4) == 0)
-            #if CSV_ALLOW_YES_NO_AS_BOOLEAN
+            #if CSV_ALLOW_YES_AS_BOOLEAN
                        || (slen == 3 && memcmp(s, "yes", 3) == 0)
             #endif
                        || (slen == 1 && s[0] == '1');

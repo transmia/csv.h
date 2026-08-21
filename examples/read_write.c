@@ -1,5 +1,5 @@
 #define CSV_IMPLEMENTATION
-#define CSV_ALLOW_YES_NO_AS_BOOLEAN 1
+#define CSV_ALLOW_YES_AS_BOOLEAN 1
 #include "../csv.h"
 #include <stdio.h>
 #include <stdint.h>

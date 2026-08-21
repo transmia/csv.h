@@ -25,17 +25,18 @@ See also [examples/](./examples/).
 
 ## Customization
 
-| Define                 | Default value | Description                                                     |
-|------------------------|---------------|-----------------------------------------------------------------|
-| `MIAS_CSV_DEF`         | `static`      | Goes before declarations and definitions of the functions       |
-| `CSV_ALLOC`            | `malloc`      | Allocator alloc                                                 |
-| `CSV_FREE`             | `free`        | Allocator free                                                  |
-| `CSV_REALLOC`          | `realloc`     | Allocator realloc                                               |
-| `CSV_INIT_CAP`         | `16`          | Default capacity for arrays (if estimated fails)                |
-| `CSV_BACKSLASH_ESCAPE` | `false`       | Enables parsing for `\"` style escapes                          |
-| `CSV_TRIM_WHITESPACE`  | `false`       | Trims whitespace in string fields                               |
-| `CSV_NUMBER_FMT`       | `%.15g`       | `sprintf` format arg for numbers, 15 used to reduce fp errors   |
-| `CSV_NUMBER_CMP_EPS`   | `1e-15`       | Epsilon for `csv_compare` for numbers to prevent fp errors      |
+| Define                     | Default value | Description                                                   |
+|----------------------------|---------------|---------------------------------------------------------------|
+| `MIAS_CSV_DEF`             | `static`      | Goes before declarations and definitions of the functions     |
+| `CSV_ALLOC`                | `malloc`      | Allocator alloc                                               |
+| `CSV_FREE`                 | `free`        | Allocator free                                                |
+| `CSV_REALLOC`              | `realloc`     | Allocator realloc                                             |
+| `CSV_INIT_CAP`             | `16`          | Default capacity for arrays (if estimated fails)              |
+| `CSV_BACKSLASH_ESCAPE`     | `false`       | Enables parsing for `\"` style escapes                        |
+| `CSV_TRIM_WHITESPACE`      | `false`       | Trims whitespace in string fields                             |
+| `CSV_NUMBER_FMT`           | `%.15g`       | `sprintf` format arg for numbers, 15 used to reduce fp errors |
+| `CSV_NUMBER_CMP_EPS`       | `1e-15`       | Epsilon for `csv_compare` for numbers to prevent fp errors    |
+| `CSV_ALLOW_YES_AS_BOOLEAN` | `0`           | Allow `yes` for true in boolean fields                        |
 
 ## License
 
